@@ -1,7 +1,7 @@
 <template>
   <div class="category-manager container">
-    <h1 class="my-3">🏷️ Categorías</h1>
-    <button @click="newCategory" class="btn btn-primary mb-4">➕ Nueva</button>
+    <h1 class="my-3"><i class="bi bi-tags-fill me-2 text-primary"></i>Categorías</h1>
+    <button @click="newCategory" class="btn btn-primary mb-4"><i class="bi bi-plus-lg me-1"></i> Nueva</button>
 
     <!-- Lista de categorías -->
     <div class="row g-3">
@@ -21,8 +21,8 @@
             <small class="text-muted">{{ cat.slug }}</small>
           </div>
           <div class="card-footer d-flex justify-content-between">
-            <button @click="editCategory(cat)" class="btn btn-sm btn-outline-primary">✏️ Editar</button>
-            <button @click="deleteCategory(cat)" class="btn btn-sm btn-outline-danger">🗑️ Eliminar</button>
+            <button @click="editCategory(cat)" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil-square me-1"></i> Editar</button>
+            <button @click="deleteCategory(cat)" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash3-fill me-1"></i> Eliminar</button>
           </div>
         </div>
       </div>
@@ -49,7 +49,7 @@
       </div>
 
       <div class="mt-3">
-        <button @click="saveCategory" class="btn btn-success">💾 Guardar</button>
+        <button @click="saveCategory" class="btn btn-success"><i class="bi bi-floppy2-fill me-1"></i> Guardar</button>
         <button @click="cancel" class="btn btn-secondary">Cancelar</button>
       </div>
     </div>
@@ -65,7 +65,7 @@ export default {
     editingId: null,
     form: { name: "", slug: "", description: "", is_active: true, image: null },
     imageFile: null,
-    api: "http://localhost:8000/api/categories/"
+    api: "http://localhost:8000/api/v1/categories/"
   }),
   async mounted() {
     this.load()

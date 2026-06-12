@@ -1,11 +1,11 @@
 <template>
-  <h2 class="text-center mb-4 text-danger text-bold">Sitios de Deporte en Iquique</h2>
+  <h3 class="text-center mb-3 text-danger fw-bold fs-2 pt-3">Sucursales Agua Moche</h3>
   <div class="map-container">
     <!-- Mapa centrado en Iquique -->
     <GMapMap
       :center="center"
       :zoom="13"
-      style="width: 100%; height: 600px"
+      style="width: 100%; height: 500px"
     >
       <!-- Marcadores de lugares -->
       <GMapMarker
@@ -15,10 +15,10 @@
         :clickable="true"
         :draggable="false"
       >
-        <GMapInfoWindow>
-          <div>
-            <h6>{{ place.name }}</h6>
-            <p>{{ place.type }}</p>
+        <GMapInfoWindow :opened="true">
+          <div class="p-1">
+            <h6 class="fw-bold mb-1 text-dark">{{ place.name }}</h6>
+            <p class="text-muted mb-0 small">{{ place.type }}</p>
           </div>
         </GMapInfoWindow>
       </GMapMarker>

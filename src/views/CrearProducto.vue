@@ -11,7 +11,7 @@
           placeholder="Buscar por categoría..." 
         />
       </div>
-      <button @click="newProduct" class="btn btn-danger mb-4">➕ Nuevo</button>
+      <button @click="newProduct" class="btn btn-danger mb-4"><i class="bi bi-plus-lg me-1"></i> Nuevo</button>
     </div>
 
     <div class="row g-3">
@@ -30,8 +30,8 @@
             <p class="mb-0"><strong>Stock:</strong> {{ p.stock }}</p> <!-- Cambio aquí de is_active a stock -->
           </div>
           <div class="card-footer d-flex justify-content-between">
-            <button @click="editProduct(p)" class="btn btn-sm btn-outline-primary">✏️ Editar</button>
-            <button @click="deleteProduct(p)" class="btn btn-sm btn-outline-danger">🗑️ Eliminar</button>
+            <button @click="editProduct(p)" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil-square me-1"></i> Editar</button>
+            <button @click="deleteProduct(p)" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash3-fill me-1"></i> Eliminar</button>
           </div>
         </div>
       </div>
@@ -61,7 +61,7 @@
       <input type="number" v-model.number="form.stock" min="1" placeholder="Cantidad en Stock" class="form-control my-2" />
 
       <div class="mt-3">
-        <button @click="saveProduct" class="btn btn-success">💾 Guardar</button>
+        <button @click="saveProduct" class="btn btn-success"><i class="bi bi-floppy2-fill me-1"></i> Guardar</button>
         <button @click="cancel" class="btn btn-secondary">Cancelar</button>
       </div>
     </div>
@@ -81,8 +81,8 @@ export default {
     form: { name: "", description: "", price: 0, category: null, stock: 1, image: null },
     imageFile: null,
     searchCategory: "",  // Aquí capturamos la búsqueda por categoría
-    api: "http://localhost:8000/api/products/",
-    apiCat: "http://localhost:8000/api/categories/",
+    api: "http://localhost:8000/api/v1/products/",
+    apiCat: "http://localhost:8000/api/v1/categories/",
   }),
   async mounted() {
     await Promise.all([this.load(), this.loadCategories()]);

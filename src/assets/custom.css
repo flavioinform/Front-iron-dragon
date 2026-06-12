@@ -1,0 +1,227 @@
+/* ==========================================================================
+   AGUA MOCHE - ECOINFINITY PREMIUM DARK THEME
+   ========================================================================== */
+
+:root {
+  /* Brand Gradients & Backgrounds */
+  --ei-bg-fallback: #0a2540;
+  --ei-bg-radial: radial-gradient(circle at 50% 50%, #1e4b85 0%, #0a1f38 100%);
+  --ei-navbar-bg: rgba(10, 31, 56, 0.96);
+  --ei-navbar-blur: blur(10px);
+
+  /* Primary Brand Colors */
+  --ei-primary: #6ab0ff;        /* Light Water Blue */
+  --ei-primary-hover: #98caff;  /* Lighter Blue */
+  --ei-secondary: #3b82f6;      /* Bright Blue Accent */
+  --ei-dark-contrast: #05101f;  /* Very Dark Blue */
+
+  /* Neutral Text & UI elements */
+  --ei-text-main: #ffffff;      /* Pure White */
+  --ei-text-muted: #d8e2f0;     /* Very Light Grayish Blue */
+  --ei-border-muted: rgba(255, 255, 255, 0.1);
+  --ei-border-active: rgba(112, 195, 212, 0.4); /* Cyan boundary */
+  
+  /* Status Colors */
+  --ei-error: #dc3545;          /* Validation Red */
+  --ei-success: #198754;        /* Green */
+
+  /* Fonts */
+  --font-display: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  
+  /* Layout Mapping */
+  --am-bg-main: var(--ei-bg-fallback);
+  --am-bg-alt: rgba(16, 36, 84, 0.25);
+  --am-primary: var(--ei-primary);
+  --am-secondary: var(--ei-secondary);
+  --am-text-main: var(--ei-text-main);
+  --am-text-muted: var(--ei-text-muted);
+  --am-border: var(--ei-border-muted);
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+}
+
+body {
+  background: var(--ei-bg-radial) !important;
+  color: var(--ei-text-main) !important;
+  font-family: var(--font-body);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--ei-text-main) !important;
+}
+
+a {
+  color: var(--ei-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+a:hover {
+  color: var(--ei-primary-hover);
+}
+
+/* Global Buttons mapping to ecoinfinity theme */
+.btn-primary-am {
+  background-color: var(--ei-primary) !important;
+  color: var(--ei-dark-contrast) !important;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 10px 24px;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 14px rgba(160, 240, 223, 0.15);
+  cursor: pointer;
+}
+.btn-primary-am:hover {
+  background-color: var(--ei-primary-hover) !important;
+  color: #ffffff !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(112, 195, 212, 0.35);
+}
+
+/* Override all light sections, containers, table tags and generic card components */
+.bg-white,
+.card,
+.card-header.bg-white,
+.section.bg-white,
+.py-5.bg-white,
+.contact-form-card.bg-white,
+.table.bg-white,
+.info-card-premium,
+.value-card.bg-white,
+.mission-vision-card.bg-white,
+.visual-card-inner.bg-white,
+.product-card-light,
+.kpi-card,
+.ref-link-card,
+.welcome-card,
+.card-3d-backdrop-light,
+.badge-seal-premium-light,
+.category-pill-massive-light,
+.btn-hero-secondary-light {
+  background-color: rgba(15, 45, 90, 0.4) !important;
+  background: rgba(15, 45, 90, 0.4) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--ei-border-active) !important;
+  color: var(--ei-text-main) !important;
+}
+
+/* Override section tags that have solid background-color */
+section {
+  background-color: transparent !important;
+}
+
+.intro-section-light-premium, .delivery-section, .contact-section, .about-brand-section, .quality-section-light-premium, .nav-section-light {
+  background: transparent !important;
+  border-color: var(--ei-border-muted) !important;
+}
+
+/* Card hover glow and smooth transitions */
+.product-card-light:hover,
+.value-card:hover,
+.mission-vision-card:hover,
+.info-card-premium:hover,
+.kpi-card:hover,
+.badge-seal-premium-light:hover {
+  border-color: var(--ei-border-active) !important;
+  box-shadow: 0 8px 30px rgba(112, 195, 212, 0.15) !important;
+  transform: translateY(-2px);
+}
+
+/* Inputs and textareas */
+input, select, textarea, .form-control, .form-control-custom, .search-input-light {
+  background: rgba(6, 13, 31, 0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  color: #ffffff !important;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+input:focus, select:focus, textarea:focus, .form-control:focus, .form-control-custom:focus, .search-input-light:focus {
+  border-color: var(--ei-primary-hover) !important;
+  box-shadow: 0 0 0 2px rgba(112, 195, 212, 0.2) !important;
+  background: rgba(6, 13, 31, 0.85) !important;
+}
+
+/* Fix text and label colors */
+.text-dark, .text-slate-800, .prod-title, .page-title-light, .about-title, .contact-title, .fw-bold, .welcome-title, .kpi-value {
+  color: var(--ei-text-main) !important;
+}
+
+.text-muted, .prod-desc, .page-sub-light, .hero-desc, .contact-subtitle, .about-paragraphs, .kpi-label, .pills-sub-light {
+  color: var(--ei-text-muted) !important;
+}
+
+/* Tables in dark mode */
+.table {
+  color: var(--ei-text-main) !important;
+}
+.table-light, .table thead.table-light th {
+  background-color: rgba(6, 13, 31, 0.8) !important;
+  color: var(--ei-text-main) !important;
+  border-bottom-color: var(--ei-border-muted) !important;
+}
+.table-hover tbody tr:hover {
+  color: var(--ei-text-main) !important;
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+.table td, .table th {
+  border-color: var(--ei-border-muted) !important;
+}
+
+/* Badges styling adjustments */
+.badge-premium-light {
+  background: rgba(160, 240, 223, 0.1) !important;
+  border: 1px solid rgba(160, 240, 223, 0.3) !important;
+  color: var(--ei-primary) !important;
+}
+
+.badge-pure-float-light, .badge-pure-light {
+  background-color: var(--ei-secondary) !important;
+  color: #ffffff !important;
+}
+
+/* Custom Webkit Scrollbars matching EcoInfinity */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--ei-bg-fallback);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, var(--ei-secondary), var(--ei-primary-hover));
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ei-primary);
+}
+
+/* Pulse animation for highlights */
+@keyframes glow-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(160, 240, 223, 0.4); }
+  70% { box-shadow: 0 0 0 8px rgba(160, 240, 223, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(160, 240, 223, 0); }
+}
+
+.ei-glow-indicator {
+  animation: glow-pulse 2s infinite;
+}
+
+/* Containers reset */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}

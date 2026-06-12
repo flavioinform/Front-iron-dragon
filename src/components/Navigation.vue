@@ -1,485 +1,602 @@
 <template>
-  <section>
-    <div class="container-fluid bg-light px-0">
-      <div class="row g-0">
-        <!-- Tarjeta fija de "Categorías" -->
-        <div class="col-6 col-md-3">
-          <div
-            class="card category-card h-100 shadow-sm text-center d-flex align-items-center justify-content-center bg-dark text-white"
-          >
-            <h3 class="fw-bold mb-0">CATEGORÍAS</h3>
-          </div>
-        </div>
+  <section class="nav-section-light">
+    <!-- ── Category Pills (Light & Vibrant) ── -->
+    <div class="container">
+      <div class="pills-header-light">
+        <span class="badge-premium-light"><i class="bi bi-grid-fill"></i> Explorar Catálogo</span>
+        <h2 class="pills-title-light">Elige tu Formato Ideal</h2>
+        <p class="pills-sub-light">Soluciones completas para hidratación premium</p>
+      </div>
 
-        <!-- Tarjetas dinámicas de categorías -->
-        <div
-          class="col-6 col-md-3"
+      <div class="pills-row-light">
+        <button
+          class="category-pill-massive-light"
+          :class="{ active: selectedCategoryId === null }"
+          @click="filterByCategory(null)"
+        >
+          <div class="pill-icon"><i class="bi bi-grid-fill"></i></div>
+          <span>Todo</span>
+        </button>
+        <button
           v-for="category in categories"
           :key="category.id"
+          class="category-pill-massive-light"
+          :class="{ active: selectedCategoryId === category.id }"
+          @click="filterByCategory(category.id)"
         >
-          <!-- Ahora redirige usando query param -->
-          <div
-            class="card category-card h-100 shadow-sm text-center p-3"
-            @click="goToCategory(category.id)"
-            style="cursor: pointer;"
-          >
-            <img
-              :src="category.image"
-              class="card-img-top img-fluid mx-auto d-block"
-              :alt="'imagen de ' + category.name"
-              style="max-height: 150px; object-fit: contain;"
-            >
-            <div class="card-body">
-              <h6 class="card-title fw-bold text-danger">{{ category.name}}</h6>
+          <div class="pill-icon"><i class="bi bi-droplet-half"></i></div>
+          <span>{{ category.name }}</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ── Products Grid (Light 3D Breakout) ── -->
+    <div class="container products-area-light">
+      <transition-group name="fade-slide" tag="div" class="products-grid-light">
+        <div
+          v-for="product in productsToDisplay"
+          :key="product.id"
+          class="product-card-3d-light"
+        >
+          <div class="card-3d-backdrop-light"></div>
+          <div class="card-3d-content-light">
+            <div class="img-breakout-light" @click="goToProduct(product.id)">
+              <img :src="getProductImage(product)" :alt="product.name" />
             </div>
+            <div class="card-info-light">
+              <h4 class="prod-title">{{ product.name }}</h4>
+              <p class="prod-desc">{{ product.description }}</p>
+              <div class="prod-action-row">
+                <div class="prod-price">S/ <span>{{ product.price }}</span></div>
+                <button class="btn-add-cart-light" @click.stop="addToCart(product)">
+                  <i class="bi bi-cart-plus-fill"></i> Añadir
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </transition-group>
+
+      <div v-if="productsToDisplay.length === 0" class="empty-cat-light">
+        <i class="bi bi-droplet"></i>
+        <p>No hay productos disponibles en esta categoría en este momento.</p>
+      </div>
+    </div>
+
+    <!-- ── Quality Seals (Light Premium) ── -->
+    <div class="quality-section-light-premium">
+      <!-- SVG Wave Divider -->
+      <div class="section-wave" aria-hidden="true" style="position:absolute; top:0; left:0; width:100%; line-height:0; transform: translateY(-99%);">
+        <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; width:100%; height:40px;">
+          <path d="M0,40 C360,0 1080,60 1440,20 L1440,60 L0,60 Z" fill="var(--am-bg-alt)"/>
+          <path d="M0,50 C480,20 960,70 1440,30 L1440,60 L0,60 Z" fill="rgba(0,170,228,0.05)"/>
+        </svg>
+      </div>
+
+      <div class="container">
+        <div class="quality-header-light">
+          <span class="badge-premium-light"><i class="bi bi-award-fill"></i> Garantía Agua Moche</span>
+          <h2 class="quality-title-light">Certificaciones de Calidad</h2>
+        </div>
+
+        <div class="seals-grid-light">
+          <div class="badge-seal-premium-light">
+            <div class="seal-icon-wrap-light"><i class="bi bi-clipboard2-pulse"></i></div>
+            <h5>Ósmosis Inversa</h5>
+            <p>Filtración multietapa que remueve el 99.9% de impurezas.</p>
+          </div>
+          <div class="badge-seal-premium-light">
+            <div class="seal-icon-wrap-light"><i class="bi bi-snow"></i></div>
+            <h5>Hielo Premium</h5>
+            <p>Sólido, cristalino y fabricado con agua 100% purificada.</p>
+          </div>
+          <div class="badge-seal-premium-light">
+            <div class="seal-icon-wrap-light"><i class="bi bi-shield-check"></i></div>
+            <h5>Esterilización UV</h5>
+            <p>Desinfección microbiológica absoluta para tu seguridad.</p>
+          </div>
+          <div class="badge-seal-premium-light">
+            <div class="seal-icon-wrap-light"><i class="bi bi-credit-card"></i></div>
+            <h5>Pago Seguro</h5>
+            <p>Aceptamos Yape, Plin, tarjetas y transferencias.</p>
           </div>
         </div>
       </div>
     </div>
-      <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-      <div class="carousel-item active">
-      <img class="d-block w-100" src="../assets/videos/bannerdra.gif" alt="GIF Banner">
-
-
-      </div>
-      <div class="carousel-item">
-        <img src="../assets/images/Irondr.png" class="d-block w-100" alt="imagen random">
-      </div>
-      <div class="carousel-item">
-        <img src="../assets/images/supl.png" class="d-block w-100" alt="imagen random">
-      </div>
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
-  </div>
-   <div class="container mt-5">
-  <div v-for="category in categories" :key="category.id" class="mb-5 ">
-    <!-- Título de la categoría -->
-   <div class="red">
-  <h3 class="fw-bold text-danger text-center mb-2 color-">{{ category.name }}</h3>
-</div>
-
-
-    <!-- Productos de esa categoría -->
-    <div class="row">
-      <div 
-        class="col-6 col-md-3 mb-4" 
-        v-for="product in category.products" 
-        :key="product.id"
-      >
-        <div class="card category-card  h-100 shadow-sm text-center p-3" @click="goToProduct(product.id)"
-          style="cursor: pointer;">
-          <img 
-            :src="product.image" 
-            class="card-img-top img-fluid mx-auto d-block" 
-            :alt="'imagen de ' + product.name"
-            style="max-height: 150px; object-fit: contain;"
-          >
-          <div class="card-body">
-            <h6 class="card-title fw-bold">{{ product.name }}</h6>
-            <p class="text-danger fw-bold">${{ product.price }}</p>
-          </div>
+    <!-- Dialog Overlay -->
+    <div class="mui-dialog-overlay" :class="{ 'show': showDialog }">
+      <div class="mui-dialog">
+        <h3 class="mui-dialog-title">Añadido al Carrito</h3>
+        <p class="mui-dialog-content">{{ dialogMessage }}</p>
+        <div class="mui-dialog-actions">
+          <button class="mui-btn-text text-secondary" @click="showDialog = false">SEGUIR COMPRANDO</button>
+          <button class="mui-btn-text text-primary" @click="goToCart">IR AL CARRITO</button>
         </div>
       </div>
     </div>
-  </div>
-</div>
- <section class="brands-section">
-        <div class="container">
-            <div class="section-title">
-                <h2>Nuestras Marcas</h2>
-            </div>
-
-            <div id="brandsCarousel" class="carousel slide brand-carousel" data-bs-ride="carousel" data-bs-interval="5000">
-                <div class="carousel-inner">
-                    <!-- Primer slide -->
-                    <div class="carousel-item active">
-                        <div class="brand-container">
-                            <div class="brand-item">
-                                <img src="../assets/images/nike.png" alt="Nike">
-                            </div>
-                            <div class="brand-item">
-                                <img src="../assets/images/bio.png" alt="SunVit">
-                            </div>
-                            <div class="brand-item">
-                                <img src="../assets/images/bpi.png" alt="Greathlete">
-                            </div>
-                            <div class="brand-item">
-                                <img src="../assets/images/umbro.png" alt="Ronnie Coleman">
-                            </div>
-                            <div class="brand-item">
-                                <img src="../assets/images/nutrex.png" alt="Dymatize">
-                            </div>
-                            <div class="brand-item">
-                                <img src="../assets/images/unss.png" alt="Ultimate Nutrition">
-                            </div>
-                            <div class="brand-item">
-                                <img src="../assets/images/naba.png" alt="Optimum Nutrition">
-                            </div>
-                            <div class="brand-item">
-                                <img src="../assets/images/herb.png" alt="BSN">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Segundo slide -->
-                    <div class="carousel-item">
-                        <div class="brand-container">
-                            <div class="brand-item">
-                                <img src="../assets/images/logodr.png" alt="Marca 9">
-                            </div>
-                            <div class="brand-item">
-                                <img src="../assets/images/logodr.png" alt="Marca 10">
-                            </div>
-                            <div class="brand-item">
-                                <img src="../assets/images/nike.png" alt="Marca 11">
-                            </div>
-                            <div class="brand-item">
-                                <img src="../assets/images/rc.png" alt="Marca 12">
-                            </div>
-                            <div class="brand-item">
-                                <img src="../assets/images/muscle.png" alt="Marca 13">
-                            </div>
-                            <div class="brand-item">
-                                <img src="../assets/images/bio.png" alt="Marca 14">
-                            </div>
-                            <div class="brand-item">
-                                <img src="../assets/images/gat.png" alt="Marca 15">
-                            </div>
-                            <div class="brand-item">
-                                <img src="../assets/images/usn.png" alt="Marca 16">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Controles de navegación -->
-                <button class="carousel-control-prev" type="button" data-bs-target="#brandsCarousel" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Anterior</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#brandsCarousel" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Siguiente</span>
-                </button>
-
-                <!-- Indicadores -->
-                <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#brandsCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#brandsCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-
   </section>
 </template>
 
 <script setup>
-import axios from 'axios'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import axios from 'axios'
+import imageBottle from '@/assets/images2/1.jpeg'
+import imageJug from '@/assets/images2/3.jpeg'
+import imageGlass from '@/assets/images2/4.jpeg'
+import { addToCart as globalAddToCart } from '@/composables/useCart.js'
+
+const getProductImage = (product) => {
+  if (product && product.image && !product.image.includes('placeholder.png') && product.image !== 'placeholder.png') {
+    return product.image
+  }
+  const name = (product && product.name ? product.name : '').toLowerCase()
+  if (name.includes('20l') || name.includes('bidón') || name.includes('jug')) {
+    return imageJug
+  }
+  if (name.includes('botella') || name.includes('10l') || name.includes('personal')) {
+    return imageBottle
+  }
+  return imageGlass
+}
 
 const categories = ref([])
+const products = ref([])
+const selectedCategoryId = ref(null)
 const router = useRouter()
 
-const goToCategory = (id) => {
-  router.push({ name: 'productos', query: { category: id } })
-} 
 const goToProduct = (id) => {
   router.push({ name: 'productDetail', params: { id } })
 }
 
+const filterByCategory = (id) => {
+  selectedCategoryId.value = id
+}
 
-const products = ref([])
+const showDialog = ref(false)
+const dialogMessage = ref('')
+
+const addToCart = (product) => {
+  globalAddToCart({
+    id: product.id,
+    name: product.name,
+    price: product.price,
+    image: getProductImage(product),
+    quantity: 1
+  })
+  
+  dialogMessage.value = `${product.name} ha sido añadido a tu carrito.`
+  showDialog.value = true
+}
+
+const goToCart = () => {
+  showDialog.value = false
+  router.push('/carrito')
+}
+
+const productsToDisplay = computed(() => {
+  if (selectedCategoryId.value === null) return products.value
+  return products.value.filter(p => p.category === selectedCategoryId.value)
+})
 
 onMounted(async () => {
   try {
     const [catRes, prodRes] = await Promise.all([
-      axios.get('http://127.0.0.1:8000/api/categories/'),
-      axios.get('http://127.0.0.1:8000/api/products/')
+      axios.get(`${process.env.VUE_APP_API_URL || 'http://127.0.0.1:8000/api/v1'}/categories/`),
+      axios.get(`${process.env.VUE_APP_API_URL || 'http://127.0.0.1:8000/api/v1'}/products/`)
     ])
-
-    const cats = catRes.data
-    const prods = prodRes.data
-
-    // unir productos a su categoría
-    cats.forEach(cat => {
-      cat.products = prods.filter(p => p.category === cat.id)
-    })
-
-    categories.value = cats
+    categories.value = catRes.data.results || catRes.data
+    products.value = prodRes.data.results || prodRes.data
   } catch (err) {
     console.error('Error cargando datos:', err)
   }
 })
-
 </script>
 
 <style scoped>
-.category-card {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-.category-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 .5rem 1rem rgba(0,0,0,.15) !important;
-}
-.red {
-  background-image: white;
-  padding: 2%;
-  width: 80vw; /* Asegura que cubra todo el ancho de la ventana */
-  margin-left: 40px; /* Elimina cualquier margen izquierdo que impida que ocupe todo el ancho */
-  margin-right: 1000px; /* Elimina cualquier margen derecho */
-  box-sizing: border-box;
-  margin-bottom: 30px;
-  
-  /* Asegura que el padding no afecte el ancho total */
+.nav-section-light {
+  background-color: var(--am-bg-main);
+  position: relative;
+  overflow: hidden;
 }
 
-        .brands-section {
-            background: linear-gradient(135deg,white, white 100%);
-            padding: 80px 0;
-            position: relative;
-            overflow: hidden;
-        }
+/* ── Pills Header ── */
+.pills-header-light {
+  text-align: center;
+  padding: 80px 0 40px;
+}
 
-        .brands-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23ffffff" stroke-width="0.5" opacity="0.3"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
-            opacity: 0.3;
-        }
+.badge-premium-light {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  background: rgba(0, 170, 228, 0.1);
+  border: 1px solid rgba(0, 170, 228, 0.2);
+  border-radius: 50px;
+  color: var(--am-primary);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 20px;
+}
 
-        .section-title {
-            text-align: center;
-            margin-bottom: 60px;
-            position: relative;
-            z-index: 2;
-        }
+.pills-title-light {
+  font-family: var(--font-display) !important;
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+  font-weight: 700;
+  color: var(--am-text-main);
+  margin-bottom: 15px;
+}
 
-        .section-title h2 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #0a0a0a;
-            margin-bottom: 20px;
-            position: relative;
-            display: inline-block;
-        }
+.pills-sub-light {
+  font-size: 1.1rem;
+  color: var(--am-text-muted);
+}
 
-        .section-title h2::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background: linear-gradient(45deg, black, black);
-            border-radius: 2px;
-        }
+/* Massive Category Pills (Light) */
+.pills-row-light {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding-bottom: 60px;
+}
 
-        .brand-carousel {
-            position: relative;
-            z-index: 2;
-        }
+.category-pill-massive-light {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: #ffffff;
+  border: 1px solid var(--am-border);
+  border-radius: 60px;
+  padding: 12px 30px 12px 12px;
+  color: var(--am-text-main);
+  font-weight: 600;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+}
 
-        .carousel-inner {
-            padding: 40px 0;
-        }
+.category-pill-massive-light .pill-icon {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: var(--am-bg-alt);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: var(--am-text-muted);
+  transition: all 0.4s;
+}
 
-        .brand-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 40px;
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            padding: 0 20px;
-        }
+.category-pill-massive-light:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+  border-color: rgba(0, 170, 228, 0.3);
+}
 
-        .brand-item {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px white;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 150px;
-            height: 90px;
-            position: relative;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
+.category-pill-massive-light.active {
+  background: var(--am-primary);
+  color: #fff;
+  border-color: var(--am-primary);
+  box-shadow: 0 10px 30px rgba(0, 170, 228, 0.3);
+}
 
-        .brand-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, white, transparent);
-            transition: left 0.5s;
-        }
+.category-pill-massive-light.active .pill-icon {
+  background: #fff;
+  color: var(--am-primary);
+}
 
-        .brand-item:hover::before {
-            left: 100%;
-        }
+/* ── 3D Breakout Cards (Light) ── */
+.products-area-light {
+  padding-bottom: 100px;
+}
 
-        .brand-item:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-        }
+.products-grid-light {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 40px;
+  padding-top: 50px; /* Space for breakout images */
+}
 
-        .brand-item img {
-            max-width: 100%;
-            max-height: 60px;
-            object-fit: contain;
-            transition: all 0.3s ease;
-            filter: grayscale(30%);
-        }
+.product-card-3d-light {
+  position: relative;
+  height: 100%;
+  padding-top: 60px;
+  cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
 
-        .brand-item:hover img {
-            filter: grayscale(0%);
-            transform: scale(1.1);
-        }
+.product-card-3d-light:hover {
+  transform: translateY(-15px);
+}
 
-        .carousel-control-prev,
-        .carousel-control-next {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(45deg, red, red);
-            border-radius: 50%;
-            top: 50%;
-            transform: translateY(-50%);
-            opacity: 1;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px red;
-        }
+.card-3d-backdrop-light {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 60px);
+  background: #ffffff;
+  border: 1px solid var(--am-border);
+  border-radius: 30px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.05);
+  transition: all 0.4s;
+}
 
-        .carousel-control-prev:hover,
-        .carousel-control-next:hover {
-            background: linear-gradient(45deg, red, red);
-            transform: translateY(-50%) scale(1.1);
-            box-shadow: 0 8px 25px red;
-        }
+.product-card-3d-light:hover .card-3d-backdrop-light {
+  border-color: rgba(0, 170, 228, 0.3);
+  box-shadow: 0 20px 50px rgba(0, 170, 228, 0.15);
+}
 
-        .carousel-control-prev {
-            left: -30px;
-        }
+.card-3d-content-light {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0 25px 25px;
+}
 
-        .carousel-control-next {
-            right: -30px;
-        }
+.img-breakout-light {
+  position: relative;
+  margin-top: -60px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
 
-        .carousel-control-prev-icon,
-        .carousel-control-next-icon {
-            width: 24px;
-            height: 24px;
-            background-size: 100%, 100%;
-        }
+.img-breakout-light img {
+  height: 220px;
+  object-fit: contain;
+  filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.1));
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s;
+}
 
-        .carousel-control-prev-icon::before {
-            content: '\f053';
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            color: white;
-            font-size: 18px;
-        }
+.product-card-3d-light:hover .img-breakout-light img {
+  transform: scale(1.1) rotate(3deg);
+  filter: drop-shadow(0 20px 30px rgba(0, 170, 228, 0.2));
+}
 
-        .carousel-control-next-icon::before {
-            content: '\f054';
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            color: white;
-            font-size: 18px;
-        }
+.card-info-light {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
 
-        .carousel-control-prev-icon,
-        .carousel-control-next-icon {
-            background-image: none !important;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+.prod-title {
+  font-family: var(--font-display) !important;
+  font-size: 1.4rem;
+  color: var(--am-text-main);
+  margin-bottom: 10px;
+  font-weight: 700;
+}
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .brand-container {
-                gap: 15px;
-                padding: 0 10px;
-            }
-            
-            .brand-item {
-                min-width: 120px;
-                height: 70px;
-                padding: 15px;
-            }
-            
-            .section-title h2 {
-                font-size: 2rem;
-            }
-            
-            .carousel-control-prev,
-            .carousel-control-next {
-                width: 50px;
-                height: 50px;
-            }
-            
-            .carousel-control-prev {
-                left: -15px;
-            }
-            
-            .carousel-control-next {
-                right: -15px;
-            }
-        }
+.prod-desc {
+  color: var(--am-text-muted);
+  font-size: 0.95rem;
+  flex-grow: 1;
+  margin-bottom: 25px;
+}
 
-        @media (max-width: 1200px) {
-            .brand-container {
-                gap: 25px;
-            }
-            
-            .brand-item {
-                min-width: 130px;
-            }
-        }
+.prod-action-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--am-border);
+  padding-top: 20px;
+}
 
-        /* Indicadores personalizados */
-        .carousel-indicators {
-            bottom: -50px;
-        }
+.prod-price {
+  color: var(--am-text-muted);
+  font-size: 1rem;
+}
 
-        .carousel-indicators button {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            border: 2px solid red;
-            background-color: transparent;
-            opacity: 0.5;
-            margin: 0 8px;
-            transition: all 0.3s ease;
-        }
+.prod-price span {
+  font-family: var(--font-display) !important;
+  color: var(--am-primary);
+  font-size: 1.8rem;
+  font-weight: 800;
+}
 
-        .carousel-indicators button.active {
-            background-color: red;
-            opacity: 1;
-            transform: scale(1.2);
-        }
-    
+.btn-add-cart-light {
+  background: rgba(0, 170, 228, 0.1);
+  border: none;
+  color: var(--am-primary);
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-weight: 700;
+  transition: all 0.3s;
+}
+
+.btn-add-cart-light:hover {
+  background: var(--am-primary);
+  color: #fff;
+  box-shadow: 0 5px 15px rgba(0, 170, 228, 0.4);
+}
+
+/* Fade Slide Transition */
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+  transition: all 0.5s ease;
+}
+.fade-slide-enter-from,
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+/* ── Quality Section ── */
+.quality-section-light-premium {
+  position: relative;
+  background: var(--am-bg-alt);
+  padding: 120px 0;
+}
+
+.quality-header-light {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.quality-title-light {
+  font-family: var(--font-display) !important;
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+  font-weight: 700;
+  color: var(--am-text-main);
+}
+
+.seals-grid-light {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+.badge-seal-premium-light {
+  background: #ffffff;
+  border: 1px solid var(--am-border);
+  border-radius: 30px;
+  padding: 40px 30px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+  transition: transform 0.4s, box-shadow 0.4s;
+}
+
+.badge-seal-premium-light:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(0, 170, 228, 0.1);
+  border-color: rgba(0, 170, 228, 0.2);
+}
+
+.seal-icon-wrap-light {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+  background: rgba(0, 170, 228, 0.1);
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: var(--am-primary);
+  transform: rotate(45deg);
+}
+
+.seal-icon-wrap-light i {
+  transform: rotate(-45deg);
+}
+
+.badge-seal-premium-light h5 {
+  font-family: var(--font-display) !important;
+  color: var(--am-text-main);
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.badge-seal-premium-light p {
+  color: var(--am-text-muted);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .products-grid-light { grid-template-columns: 1fr; }
+  .pills-row-light { gap: 10px; }
+}
+
+/* Material UI Dialog Styles */
+.mui-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.mui-dialog-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mui-dialog {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 24px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0px 11px 15px -7px rgba(0,0,0,0.2), 0px 24px 38px 3px rgba(0,0,0,0.14), 0px 9px 46px 8px rgba(0,0,0,0.12);
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+  font-family: "Roboto", "Segoe UI", sans-serif;
+}
+
+.mui-dialog-overlay.show .mui-dialog {
+  transform: scale(1);
+}
+
+.mui-dialog-title {
+  margin: 0 0 16px;
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.mui-dialog-content {
+  margin: 0 0 24px;
+  font-size: 1rem;
+  color: rgba(0, 0, 0, 0.6);
+  line-height: 1.5;
+}
+
+.mui-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.mui-btn-text {
+  background: transparent;
+  border: none;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.875rem;
+  letter-spacing: 0.02857em;
+  padding: 6px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.mui-btn-text:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.mui-btn-text.text-primary {
+  color: #0284c7;
+}
+
+.mui-btn-text.text-primary:hover {
+  background-color: rgba(2, 132, 199, 0.08);
+}
+
+.mui-btn-text.text-secondary {
+  color: #64748b;
+}
+
+.mui-btn-text.text-secondary:hover {
+  background-color: rgba(100, 116, 139, 0.08);
+}
+
 </style>

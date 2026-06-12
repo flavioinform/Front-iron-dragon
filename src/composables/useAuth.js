@@ -20,8 +20,8 @@ export function useAuth() {
   // 🔑 Login
   const login = async (user, pass) => {
     try {
-      const res = await axios.post("http://127.0.0.1:8000/api/login/", {
-        username: user,
+      const res = await axios.post(`${process.env.VUE_APP_API_URL || 'http://127.0.0.1:8000/api/v1'}/auth/token/`, {
+        email: user,
         password: pass,
       })
 
@@ -45,7 +45,7 @@ export function useAuth() {
     if (!accessToken.value) return
 
     try {
-      const res = await axios.get("http://127.0.0.1:8000/api/profile/", {
+      const res = await axios.get(`${process.env.VUE_APP_API_URL || 'http://127.0.0.1:8000/api/v1'}/auth/me/`, {
         headers: { Authorization: `Bearer ${accessToken.value}` },
       })
       setUser(res.data)
@@ -70,7 +70,7 @@ export function useAuth() {
   const refresh = async () => {
     if (!refreshToken.value) return
     try {
-      const res = await axios.post("http://127.0.0.1:8000/api/token/refresh/", {
+      const res = await axios.post(`${process.env.VUE_APP_API_URL || 'http://127.0.0.1:8000/api/v1'}/auth/refresh/`, {
         refresh: refreshToken.value,
       })
       accessToken.value = res.data.access

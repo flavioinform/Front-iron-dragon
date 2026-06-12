@@ -1,0 +1,168 @@
+/* ==========================================================================
+   ECOINFINITY - PREMIUM DARK THEME
+   ========================================================================== */
+
+:root {
+  /* Brand Gradients & Backgrounds */
+  --ei-bg-fallback: #060d1f;
+  --ei-bg-radial: radial-gradient(circle at 80% 50%, #102454 0%, #060d1f 100%);
+  --ei-navbar-bg: rgba(4, 9, 21, 0.96);
+  --ei-navbar-blur: blur(10px);
+
+  /* Primary Brand Colors */
+  --ei-primary: #a0f0df;        /* Neon Teal / Mint */
+  --ei-primary-hover: #70c3d4;  /* Vibrant Cyan */
+  --ei-secondary: #3474be;      /* Medium Royal Blue */
+  --ei-dark-contrast: #1d4088;  /* Deep Navy (Contrast text on light surfaces) */
+
+  /* Neutral Text & UI elements */
+  --ei-text-main: #ffffff;      /* Pure White */
+  --ei-text-muted: #d8e2f0;     /* Very Light Grayish Blue */
+  --ei-border-muted: rgba(255, 255, 255, 0.1);
+  --ei-border-active: rgba(112, 195, 212, 0.4); /* Cyan boundary */
+  
+  /* Status Colors */
+  --ei-error: #dc3545;          /* Validation Red */
+  --ei-success: #198754;        /* Green */
+
+  /* Typography */
+  --font-display: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* Border Radii */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+}
+
+/* Global Dark Theme Applicators */
+.ei-dark-theme-root {
+  background: var(--ei-bg-radial);
+  color: var(--ei-text-main);
+  font-family: var(--font-body);
+  min-height: 100vh;
+}
+
+.ei-gradient-text {
+  background: linear-gradient(135deg, #ffffff 30%, var(--ei-primary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Translucent Premium Navbar */
+.ei-navbar {
+  background: var(--ei-navbar-bg);
+  backdrop-filter: var(--ei-navbar-blur);
+  -webkit-backdrop-filter: var(--ei-navbar-blur);
+  border-bottom: 1px solid var(--ei-border-muted);
+}
+
+/* Primary Eco Button */
+.btn-primary-ei {
+  background-color: var(--ei-primary);
+  color: var(--ei-dark-contrast) !important;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 10px 24px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 14px rgba(160, 240, 223, 0.15);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-primary-ei:hover {
+  background-color: var(--ei-primary-hover);
+  color: #ffffff !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(112, 195, 212, 0.35);
+}
+
+/* Secondary/Outline Button */
+.btn-outline-ei {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-sm);
+  padding: 10px 24px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-outline-ei:hover {
+  background-color: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Premium Dark Cards */
+.card-ei {
+  background: rgba(16, 36, 84, 0.25);
+  border: 1px solid var(--ei-border-muted);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+}
+
+.card-ei:hover {
+  border-color: var(--ei-border-active);
+  box-shadow: 0 8px 30px rgba(112, 195, 212, 0.08);
+  transform: translateY(-2px);
+}
+
+/* Inputs */
+.input-ei {
+  background: rgba(6, 13, 31, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.input-ei::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.input-ei:focus {
+  border-color: var(--ei-primary-hover);
+  box-shadow: 0 0 0 2px rgba(112, 195, 212, 0.2);
+  background: rgba(6, 13, 31, 0.85);
+}
+
+/* Custom Webkit Scrollbars matching EcoInfinity */
+.ei-scrollbar::-webkit-scrollbar {
+  width: 10px;
+}
+
+.ei-scrollbar::-webkit-scrollbar-track {
+  background: var(--ei-bg-fallback);
+}
+
+.ei-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, var(--ei-secondary), var(--ei-primary-hover));
+  border-radius: 5px;
+}
+
+.ei-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--ei-primary);
+}
+
+/* Pulse animation for highlights */
+@keyframes glow-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(160, 240, 223, 0.4); }
+  70% { box-shadow: 0 0 0 8px rgba(160, 240, 223, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(160, 240, 223, 0); }
+}
+
+.ei-glow-indicator {
+  animation: glow-pulse 2s infinite;
+}

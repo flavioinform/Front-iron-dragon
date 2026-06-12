@@ -7,6 +7,9 @@ import store from './store'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 
+// Custom Premium Design Styles
+import './assets/custom.css'
+
 
 // Google Maps
 import VueGoogleMaps from '@fawmi/vue-google-maps'

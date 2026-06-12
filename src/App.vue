@@ -1,35 +1,37 @@
 <template>
   <div id="app">
-    <Header  />
-    <Navbar />
-    <Carrousel  v-if="route.name !=='productos' && route.name!== 'about' && route.name!== 'login' && route.name!=='register' && route.name!== 'politica' "   />
+    <Navbar v-if="!isAdminRoute" />
 
-    <Navigation  v-if="route.name !=='productos' && route.name!== 'about' && route.name!== 'login'  && route.name!== 'productDetail'   && route.name!== 'carrito' && route.name!== 'crearCategoria' && route.name!=='crearProducto' && route.name!=='register' && route.name!== 'politica'"   @category-selected="categoryID" />
-    
-    <MapaIquique v-if="route.name !=='productos' && route.name!== 'about' && route.name!== 'login'  && route.name!== 'productDetail'   && route.name!== 'carrito'  && route.name!== 'crearCategoria' && route.name!=='crearProducto' && route.name!=='register' && route.name!== 'politica'" />
-    <main>
+    <main :class="{ 'admin-main': isAdminRoute }">
       <router-view />
     </main>
-    <Footer />
-        <!-- <Chatbot /> -->
 
+    <Chatbot v-if="!isAdminRoute" />
+    <Footer v-if="!isAdminRoute" />
   </div>
 </template>
 
 <script setup>
-import Header from '@/components/Header.vue'
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 import Navbar from '@/components/Navbar.vue'
-import Carrousel from './components/Carrousel.vue';
-import Navigation from './components/Navigation.vue';
-import MapaIquique from './components/MapaIquique.vue';
-import Footer from './components/Footer.vue';
-// import Chatbot from './components/Chatbot.vue';
-import { useRoute } from 'vue-router';
+import Footer from '@/components/Footer.vue'
+import Chatbot from '@/components/Chatbot.vue'
 
-
-
-
-
-
-const route=useRoute()  
+const route = useRoute()
+const isAdminRoute = computed(() => route.path === '/admin-dashboard')
 </script>
+
+<style>
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--am-bg-main);
+}
+
+main {
+  flex: 1;
+  background-color: var(--am-bg-main);
+}
+</style>
